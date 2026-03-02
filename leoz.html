@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>クイズチャレンジ！</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff);
+    padding: 50px;
+}
+
+.quiz-box {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    margin: auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.correct {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.wrong {
+    background-color: #f44336;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+a {
+    display: block;
+    margin-top: 15px;
+    font-size: 18px;
+    color: #333;
+}
+</style>
+
+</head>
+<body>
+
+<div class="quiz-box">
+    <h2>クイズ！</h2>
+    <p>日本の首都はどこ？</p>
+
+    <button class="wrong" onclick="checkAnswer(false)">大阪</button>
+    <button class="correct" onclick="checkAnswer(true)">東京</button>
+    <button class="wrong" onclick="checkAnswer(false)">福岡</button>
+
+    <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+
+    <div id="links" class="hidden">
+        <a href="https://line.me/ti/p/YOUR_LINE_ID" target="_blank">
+            🔗 LINEはこちら
+        </a>
+
+        <a href="https://www.instagram.com/YOUR_INSTAGRAM_ID/" target="_blank">
+            🔗 Instagramはこちら
+        </a>
+    </div>
+</div>
+
+<script>
+function checkAnswer(isCorrect) {
+    const result = document.getElementById("result");
+    const links = document.getElementById("links");
+
+    if (isCorrect) {
+        result.innerHTML = "正解！リンクをチェックしてね👇";
+        links.classList.remove("hidden");
+    } else {
+        result.innerHTML = "不正解！もう一度挑戦してね。";
+        links.classList.add("hidden");
+    }
+}
+</script>
+
+</body>
+</html>
