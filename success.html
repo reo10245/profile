@@ -5,52 +5,98 @@
 <title>正解！</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #00f260, #0575e6);
+    font-family: 'Orbitron', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(-45deg, #00f260, #0575e6, #ff6a00, #ff007a);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: white;
-    padding-top: 100px;
+}
+
+@keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+.container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 60px 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 50px;
+    margin: 0;
+    text-shadow: 0 0 20px yellow, 0 0 40px orange;
+    animation: pulseText 2s infinite;
+}
+
+@keyframes pulseText {
+    0%, 100% {text-shadow: 0 0 20px yellow, 0 0 40px orange;}
+    50% {text-shadow: 0 0 40px yellow, 0 0 60px orange;}
+}
+
+p {
+    font-size: 20px;
+    margin-top: 20px;
+    text-shadow: 0 0 5px black;
 }
 
 .icons {
     margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
 }
 
 .icons a {
-    margin: 20px;
     display: inline-block;
-    transition: 0.3s;
-}
-
-.icons img {
-    width: 100px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 .icons a:hover {
-    transform: scale(1.2);
+    transform: scale(1.3) rotate(-5deg);
+    box-shadow: 0 0 25px yellow, 0 0 40px orange;
+}
+
+.icons img {
+    width: 80px;
+    display: block;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎉 正解！ 🎉</h1>
-<p>良かったら、連絡先教えてください！</p>
+<div class="container">
+    <h1>🎉 正解！ 🎉</h1>
+    <p>良かったら、連絡先教えてください！</p>
 
-<div class="icons">
-    <a href="https://line.me/ti/p/102450220" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg">
-    </a>
+    <div class="icons">
+        <a href="https://line.me/ti/p/SDVF8Syi2D" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" alt="LINE">
+        </a>
 
-    <a href="https://www.instagram.com/reoz___/" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
-    </a>
+        <a href="https://www.instagram.com/reoz___/" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+        </a>
+    </div>
 </div>
 
 </body>
