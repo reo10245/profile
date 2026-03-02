@@ -2,91 +2,215 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>クイズチャレンジ！</title>
+<title>仮面ライダークイズ</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    margin: 0;
+    font-family: 'Orbitron', Arial, sans-serif;
+    color: white;
     text-align: center;
-    background: linear-gradient(135deg, #89f7fe, #66a6ff);
-    padding: 50px;
+    background: black;
+    overflow-y: auto;  /* スクロール可能に */
+    min-height: 100vh;
+    padding: 50px 20px; /* 上下余白を確保 */
 }
 
-.quiz-box {
+/* 背景エネルギー */
+.energy-bg {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, red 0%, black 60%);
+    animation: pulse 3s infinite alternate;
+    z-index: 0;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* 回転リング */
+.ring {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border: 5px solid red;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 3s linear infinite;
+    box-shadow: 0 0 40px red;
+    z-index: 1;
+}
+
+@keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ヒーローシルエット */
+.hero {
+    position: fixed;
+    width: 120px;
+    height: 200px;
     background: white;
-    padding: 30px;
-    border-radius: 15px;
-    width: 400px;
-    margin: auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    clip-path: polygon(50% 0%, 70% 20%, 60% 40%, 80% 70%, 50% 100%, 20% 70%, 40% 40%, 30% 20%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: appear 2s forwards;
+    z-index: 2;
 }
 
-button {
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
+@keyframes appear {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
-.correct {
-    background-color: #4CAF50;
-    color: white;
+/* フラッシュ */
+.flash {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    animation: flashAnim 2s forwards;
+    z-index: 3;
 }
 
-.wrong {
-    background-color: #f44336;
-    color: white;
+@keyframes flashAnim {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
 }
 
-.hidden {
+/* クイズ部分 */
+.quiz-box {
+    position: relative;
+    z-index: 5;
     display: none;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-a {
-    display: block;
-    margin-top: 15px;
-    font-size: 18px;
-    color: #333;
+/* タイトル */
+.quiz-box h2 {
+    font-size: 2em;
+    text-shadow: 0 0 10px yellow, 0 0 20px red;
+    margin-bottom: 40px;
+}
+
+/* 選択肢ボタン */
+.option {
+    cursor: pointer;
+    border: 3px solid red;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+    background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(50,0,0,0.8));
+    transition: 0.3s;
+    box-shadow: 0 0 10px red, 0 0 20px orange;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px yellow;
+}
+
+.option:hover {
+    background: linear-gradient(45deg, rgba(255,0,0,0.8), rgba(255,100,0,0.9));
+    transform: scale(1.05);
+    box-shadow: 0 0 20px yellow, 0 0 30px orange;
+}
+
+/* 選択肢画像 */
+.option img {
+    width: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+/* 正解エフェクト */
+#effect {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, yellow, red, black);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    font-weight: bold;
+    color: yellow;
+    text-shadow: 0 0 20px red, 0 0 40px orange;
+    animation: explode 1.5s ease-out forwards;
+    z-index: 10;
+}
+
+@keyframes explode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="quiz-box">
-    <h2>クイズ！</h2>
-    <p>日本の首都はどこ？</p>
+<div class="energy-bg"></div>
+<div class="ring"></div>
+<div class="hero"></div>
+<div class="flash"></div>
 
-    <button class="wrong" onclick="checkAnswer(false)">大阪</button>
-    <button class="correct" onclick="checkAnswer(true)">東京</button>
-    <button class="wrong" onclick="checkAnswer(false)">福岡</button>
+<div id="effect">COMPLETE!!</div>
 
-    <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+<div class="quiz-box" id="quiz">
+    <h2>はじめまして！咲苗ちゃん</h2>
+    <h2>いきなりですが、クイズです！</h2>
+    <h2>2022年の仮面ライダーの名前はどれでしょう？</h2>
 
-    <div id="links" class="hidden">
-        <a href="https://line.me/ti/p/102450220" target="_blank">
-            🔗 LINEはこちら
-        </a>
+    <div class="option" onclick="checkAnswer(false)">
+        <img src="C:\Users\reo10\Downloads\158f3e58-0db9-4efc-96fc-9723782e5546 (1).jpg" alt="リバイス">
+        <p>仮面ライダーリバイス</p>
+    </div>
 
-        <a href="https://www.instagram.com/reoz___/" target="_blank">
-            🔗 Instagramはこちら
-        </a>
+    <div class="option" onclick="checkAnswer(false)">
+        <img src="C:\Users\reo10\Downloads\1776c7ea-119c-4b3b-b82d-b72de36060c2.jpg" alt="セイバー">
+        <p>仮面ライダーセイバー</p>
+    </div>
+
+    <div class="option" onclick="checkAnswer(true)">
+        <img src="C:\Users\reo10\Downloads\8e178c69-20aa-418c-9735-4f8a5b491b7d.jpg" alt="ギーツ">
+        <p>仮面ライダーギーツ</p>
     </div>
 </div>
 
 <script>
-function checkAnswer(isCorrect) {
-    const result = document.getElementById("result");
-    const links = document.getElementById("links");
+// 変身演出後にクイズ表示
+setTimeout(() => {
+    document.getElementById("quiz").style.display = "block";
+}, 2500);
 
+function checkAnswer(isCorrect) {
     if (isCorrect) {
-        result.innerHTML = "正解！リンクをチェックしてね👇";
-        links.classList.remove("hidden");
+        const effect = document.getElementById("effect");
+        effect.style.display = "flex";
+
+        setTimeout(() => {
+            window.location.href = "success.html";
+        }, 1500);
+
     } else {
-        result.innerHTML = "不正解！もう一度挑戦してね。";
-        links.classList.add("hidden");
+        alert("不正解！もう一度挑戦してね！");
     }
 }
 </script>
